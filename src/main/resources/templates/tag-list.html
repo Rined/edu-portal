@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tags</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/base.css">
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div th:replace="~{fragments :: titleLinkButton('Tag list', 'Total number of tags: ' + ${tags.size()}, '/tags/create', 'Create new tag')}"></div>
+    <div class="custom-content">
+        <div class="list-group mb-2" th:each="tag: ${tags}">
+            <a href="#"
+               th:href="@{/topics/tags/__${tag.tag}__}"
+               class="list-group-item d-flex justify-content-between list-group-item-action tag-link animate"
+               th:object="${tag}">
+                <span th:text="*{tag}">None</span>
+                <span class="badge-pill" th:text="*{count}">0</span>
+            </a>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

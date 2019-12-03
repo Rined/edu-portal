@@ -1,0 +1,74 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    padding-top: 55px;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.comments {
+    margin-bottom: 20px;
+}
+
+.main-content {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.custom-content {
+    margin-right: 15%;
+    margin-left: 15%;
+}
+
+.error-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.error-actions {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.error-actions .btn {
+    margin-right: 10px;
+}
+
+.animate:hover {
+    color: white;
+    background-color: #343a40;
+    transition: 0.5s;
+}
+
+.pic {
+    background-image: url(../images/index.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 50vh;
+    position: relative;
+}
+
+.left-right-margin {
+    margin-right: 1vh;
+    margin-left: 1vh;
+}
+
+.dashboard-container{
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+}

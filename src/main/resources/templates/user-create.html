@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new tag</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/styles/base.css" rel="stylesheet">
+    <script th:replace="~{fragments :: formValidation}"></script>
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div th:replace="~{fragments :: title('Create user', 'Fill the following fields')}"></div>
+    <div class="custom-content mb-3">
+        <form class="validation-form" method="post" action="/users/create" novalidate>
+
+            <div class="form-group">
+                <label for="name" class="lead">Login:</label>
+                <input type="text" class="form-control" id="name" name="name" autocomplete="off" placeholder="Input your login" required>
+                <div class="invalid-feedback">Title is mandatory</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="lead">Email:</label>
+                <input type="text" class="form-control" id="email" name="email" autocomplete="off" placeholder="Input email" required>
+                <div class="invalid-feedback">Username is mandatory</div>
+            </div>
+
+            <div class="form-group">
+                <label for="about" class="lead">About you:</label>
+                <input type="text" class="form-control"  id="about" name="about" autocomplete="off" placeholder="Some words about you"/>
+            </div>
+
+            <div class="form-group">
+                <label for="firstName" class="lead">First name:</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" autocomplete="off" placeholder="Input first name"/>
+            </div>
+
+            <div class="form-group">
+                <label for="secondName" class="lead">Second name:</label>
+                <input type="text" class="form-control" id="secondName" name="secondName" autocomplete="off" placeholder="Input second name"/>
+            </div>
+
+            <button type="submit" class="btn btn-outline-secondary">Create new</button>
+        </form>
+    </div>
+</main>
+
+<div th:if="${201 == #response.status}" class="alert alert-success" role="alert">
+    User was created successfully!
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${userProfile.user.name}">Title</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="/styles/base.css" rel="stylesheet">
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div class="custom-content">
+        <div class="d-flex justify-content-end" th:object="${userProfile.user}">
+            <div class="card" style="width: 20rem;">
+                <div class="card-header">
+                    <div class="d-flex justify-content-end h3" style="color:#007bff" th:text="*{name}">
+                        Username
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                Reputation:
+                            </div>
+                            <div th:replace="~{fragments :: rating(*{reputation})}">
+                                rating
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                Last seen:
+                            </div>
+                            <div th:text="*{lastSeen}">
+                                now
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                Member from:
+                            </div>
+                            <div th:text="*{registrationDate}">
+                                now
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-2">
+            <a th:href="@{/users/{id}/change(id=${param.id})}" class="btn btn-outline-primary btn-lg m-2">
+                Edit user info
+            </a>
+            <form method="post" action="/users/delete" novalidate>
+                <input name="id" type="hidden" th:value="${userProfile.user.id}"/>
+                <button type="submit" class="btn btn-outline-primary btn-lg m-2">
+                    Delete
+                </button>
+            </form>
+        </div>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#topics">Topics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#comments">Comments</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content mb-2">
+            <div class="tab-pane active" id="topics">
+                <div class="card" th:each="topic: ${userProfile.topics}">
+                    <div class="card-body" th:object="${topic}">
+                        <div class="d-flex justify-content-between">
+                            <a href="#"
+                               class="p-2 tag-link"
+                               style="width:100%"
+                               th:href="@{/topics/__*{topicTitle}__}"
+                               th:text="*{topicTitle}">
+                                Topic link
+                            </a>
+                            <div class="p-2 nowrap" th:insert="~{fragments :: rating(*{topicVote})}">
+                                rating
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end" th:text="*{topicDate}">12.12.12</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="comments">
+                <div class="card" th:each="comment: ${userProfile.comments}">
+                    <div class="card-body" th:object="${comment}">
+                        <div class="d-flex justify-content-between">
+                            <a href="#"
+                               class="p-2 tag-link"
+                               style="width:100%"
+                               th:href="@{/topics/__*{topicTitle}__}"
+                               th:text="*{topicTitle}">
+                                Topic link
+                            </a>
+                            <div class="p-2 nowrap" th:insert="~{fragments :: rating(*{commentVote})}">
+                                rating
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end" th:text="*{commentDate}">12.12.12</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

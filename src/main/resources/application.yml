@@ -1,0 +1,23 @@
+spring:
+  data:
+    mongodb:
+      port: 0
+      database: test
+#      uri: mongodb://localhost
+#      port: 27017
+#      database: blog
+
+view:
+  error:
+    template:
+      name: custom-error
+      codeAlias: code
+      descriptionAlias: description
+  users:
+    numberOfElementsOnPage: 10
+
+
+logging:
+  level:
+    root: info
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG

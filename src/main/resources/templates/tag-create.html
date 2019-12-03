@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new tag</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/styles/base.css" rel="stylesheet">
+    <script th:replace="~{fragments :: formValidation}"></script>
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div th:replace="~{fragments :: title('Create tag', 'Fill the following fields')}"></div>
+    <div class="custom-content">
+        <form class="validation-form" method="post" action="/tags/create" novalidate>
+            <div class="form-group">
+                <label for="newTag" class="lead">Tag name:</label>
+                <input type="text" class="form-control" autocomplete="off" id="newTag" name="newTag" placeholder="Input new tag" required>
+                <div class="invalid-feedback">
+                    Tag name is mandatory
+                </div>
+            </div>
+            <button type="submit" class="btn btn-outline-secondary">Create new</button>
+        </form>
+        <h4 class="display-4">Already exists tags:</h4>
+        <div class="d-flex flex-wrap">
+            <div style="margin: 3px" th:each="tag: ${tags}">
+                <div th:replace="~{fragments :: tag(${tag.tag})}">Tag</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:if="${201 == #response.status}" class="alert alert-success" role="alert">
+    Tag was created successfully!
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new tag</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/styles/base.css" rel="stylesheet">
+    <script th:replace="~{fragments :: formValidation}"></script>
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div th:replace="~{fragments :: title('Edit tag ' + ${tag.tag}, 'Fill the following fields to update tag')}"></div>
+    <div class="custom-content">
+        <form class="validation-form" method="post" th:action="@{/tags/__${tag.tag}__/change}" novalidate>
+            <div class="form-group">
+                <input name="id" type="hidden" th:value="${tag.id}"/>
+                <label for="newTag" class="lead">Tag name:</label>
+                <input type="text" class="form-control" autocomplete="off" id="newTag" name="tag" th:value="${tag.tag}" required>
+                <div class="invalid-feedback">
+                    Tag name is mandatory
+                </div>
+            </div>
+            <button type="submit" class="btn btn-outline-secondary">Edit</button>
+        </form>
+    </div>
+</main>
+
+
+<div th:if="${#cookie.isCookieExists('update')}" th:inline="text" class="alert alert-success" role="alert">
+    Tag [[${#cookie.pop("update")}]] was updated successfully!
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

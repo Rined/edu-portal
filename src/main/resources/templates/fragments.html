@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+
+<nav th:fragment="navigation" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container">
+        <a class="navbar-brand mr-auto" href="/">Home</a>
+        <a class="navbar-brand" href="/topics">Topics</a>
+        <a class="navbar-brand" href="/tags">Tags</a>
+        <a class="navbar-brand" href="/users">Users</a>
+    </div>
+</nav>
+
+<footer th:fragment="footer" class="footer mt-auto py-3 bg-dark navbar-dark">
+    <div class="container text-center text-white">
+        <small>Copyright &copy; Rined</small>
+    </div>
+</footer>
+
+
+<!--<div th:replace="~{fragments :: rating()}">-->
+<div th:fragment="rating(vote)" th:with="positive=${vote>=0}">
+    <th:block th:if="${positive}">
+        <img th:replace="~{fragments :: goodRating}"/>
+    </th:block>
+
+    <th:block th:if="${!positive}">
+        <img th:replace="~{fragments :: badRating}"/>
+    </th:block>
+    <span th:style="${positive ? 'color: green' : 'color: red'}"
+          th:text="${positive ? (vote == 0 ? '' : '+') : ''} + ${vote}">rating</span>
+</div>
+
+
+<!--<img th:replace="~{fragments :: badRating}">-->
+<img th:fragment="badRating" width="16" height="16" alt="badRating" src="data:image/svg+xml;base64,
+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDU1MS4xMyA1NTEuMTMiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTUxLjEzIDU1MS4xMyIgd2lkdGg9IjUxMiI+PGc+PHBhdGggZD0ibTI3NS41NjUgMzYxLjY3OS0yMjMuODk3LTIyMy44OTZoLTUxLjY2OGwyNzUuNTY1IDI3NS41NjUgMjc1LjU2NS0yNzUuNTY1aC01MS42Njh6IiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBjbGFzcz0iYWN0aXZlLXBhdGgiIHN0eWxlPSJmaWxsOiNGRjAwMDAiIGRhdGEtb2xkX2NvbG9yPSIjMDAwMDAwIj48L3BhdGg+PC9nPiA8L3N2Zz4="/>
+
+<!--<img th:replace="~{fragments :: goodRating}">-->
+<img th:fragment="goodRating" width="16" height="16" alt="badRating" src="data:image/svg+xml;base64,
+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDU1MS4xMyA1NTEuMTMiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTUxLjEzIDU1MS4xMyIgd2lkdGg9IjUxMiI+PGc+PHBhdGggZD0ibTI3NS41NjUgMTg5LjQ1MSAyMjMuODk3IDIyMy44OTdoNTEuNjY4bC0yNzUuNTY1LTI3NS41NjUtMjc1LjU2NSAyNzUuNTY1aDUxLjY2OHoiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSJhY3RpdmUtcGF0aCIgc3R5bGU9ImZpbGw6IzAwODAwMCIgZGF0YS1vbGRfY29sb3I9IiMwMDAwMDAiPjwvcGF0aD48L2c+IDwvc3ZnPg=="/>
+
+<script th:fragment="formValidation">
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            Array.prototype.filter.call(document.getElementsByClassName('validation-form'), function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+
+<div th:fragment="title(pageTitle, description)" class="jumbotron mb-2">
+    <div class="container">
+        <h1 class="display-4" th:text="${pageTitle}">Title</h1>
+        <p class="lead" th:text="${description}">Description</p>
+    </div>
+</div>
+
+<div th:fragment="titleLinkButton(pageTitle, description, url, buttonText)" class="jumbotron mb-2">
+    <div class="container">
+        <h1 class="display-4" th:text="${pageTitle}">Title</h1>
+        <p class="lead" th:text="${description}">Description</p>
+        <div class="d-flex justify-content-start">
+            <a th:href="${url}" class="btn btn-outline-primary btn-lg mb-2" th:text="${buttonText}">Create new</a>
+        </div>
+    </div>
+</div>
+
+
+<div th:fragment="titleEditAndDeleteTag(tag, description)"
+     class="jumbotron mb-2">
+    <div class="container">
+        <h1 class="display-4" th:text="${tag.tag} + ' topics'">Title</h1>
+        <p class="lead" th:text="${description}">Description</p>
+        <div class="d-flex justify-content-start">
+            <a th:href="@{/tags/{tag}/change(tag=${tag.tag})}" class="btn btn-outline-primary btn-lg m-2">
+                Edit tag
+            </a>
+            <form method="post" action="/tags/delete" novalidate>
+                <input name="id" type="hidden" th:value="${tag.id}"/>
+                <button type="submit" class="btn btn-outline-primary btn-lg m-2">
+                    Delete
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="titleTopic(topic)" class="jumbotron mb-2">
+    <div class="container">
+        <h1 class="display-4" th:text="${topic.info.title}">Title</h1>
+
+        <div class="d-flex">
+            <a class="mr-auto p-2 h5 tag-link"
+               th:href="@{/user(id=${topic.info.author.id})}"
+               th:text="${topic.info.author.name}">
+                Author
+            </a>
+            <div class="p-2" th:text="${topic.date}">00.00.00</div>
+        </div>
+
+        <div class="d-flex flex-wrap justify-content-end">
+            <div style="margin-left: 5px" th:each="tag: ${topic.info.tags}">
+                <a th:replace="~{fragments :: tag(${tag.tag})}"/>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-start">
+            <a th:href="@{/topics/__${topic.info.title}__/change}" class="btn btn-outline-primary btn-lg m-2">
+                Edit topic
+            </a>
+
+            <form method="post" action="/topics/delete" novalidate>
+                <input name="id" type="hidden" th:value="${topic.id}"/>
+                <button type="submit" class="btn btn-outline-primary btn-lg m-2">
+                    Delete
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="topicInfoWithTagsList(topics)" class="card mb-2" th:each="topic: ${topics}">
+    <div class="card-body" th:object="${topic}">
+        <div class="d-flex justify-content-between">
+            <div class="p-2">
+                <a href="#"
+                   style="width:100%"
+                   th:href="@{/topics/__*{topicTitle}__}"
+                   th:text="*{topicTitle}">
+                    Topic title
+                </a>
+            </div>
+            <div class="p-2 nowrap" th:text="*{topicDate}">12.12.12</div>
+        </div>
+        <div class="d-flex flex-wrap justify-content-end">
+            <div style="margin-left: 5px" th:each="tag: *{tags}">
+                <a th:replace="~{fragments :: tag(${tag})}"/>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="p-2" th:replace="~{fragments :: rating(*{vote})}">
+                rating
+            </div>
+            <div class="p-2">
+                <a th:href="@{/user(id=*{authorId})}" th:text="*{authorName}">AuthorName</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<nav th:fragment="pagination(page, url, range)" th:if="${page.getTotalPages() != 1}"
+     th:with="twoSideRange=${range/2}, maxPage=${page.getTotalPages() - 1}, currentPage=${page.getNumber()}">
+
+    <ul class="pagination" th:with="
+            assumptionFrom=${currentPage - twoSideRange <= 0 ? 0 : currentPage - twoSideRange},
+            assumptionTo=${currentPage + twoSideRange >= maxPage ? maxPage : currentPage + twoSideRange},
+            fromRemainder=${assumptionFrom == 0 ? twoSideRange - currentPage : 0},
+            toRemainder=${assumptionTo == maxPage ? currentPage + twoSideRange - maxPage : 0},
+            from=${toRemainder == 0 ? assumptionFrom : (assumptionFrom - toRemainder < 0 ? 0 : assumptionFrom - toRemainder)},
+            to=${fromRemainder == 0 ? assumptionTo : (assumptionTo + fromRemainder > maxPage ? maxPage : assumptionTo + fromRemainder)}">
+
+        <li th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
+            <a class="page-link" href="#" th:href="@{${url}(page=0)}">&laquo;</a>
+        </li>
+
+        <li th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
+            <a class="page-link" href="#" th:href="@{${url}(page=${currentPage - 1})}">&lt;</a>
+        </li>
+
+        <th:block th:each="i : ${#numbers.sequence(from, to)}">
+            <li class="page-item" th:class="${i == currentPage ? 'page-item active' : 'page-item'}">
+                <a class="page-link" href="#" th:href="@{${url}(page=${i})}" th:text="${i}">i</a>
+            </li>
+        </th:block>
+
+        <li th:class="${currentPage == maxPage ? 'page-item disabled' : 'page-item'}">
+            <a class="page-link" href="#" th:href="@{${url}(page=${currentPage + 1})}">&gt;</a>
+        </li>
+
+        <li th:class="${currentPage == maxPage ? 'page-item disabled' : 'page-item'}">
+            <a class="page-link" href="#" th:href="@{${url}(page=${maxPage})}">&raquo;</a>
+        </li>
+    </ul>
+</nav>
+
+<!--<div th:replace="~{fragments :: tag(tag)}">-->
+<div th:fragment="tag(tag)">
+    <a href="#"
+       class="p-2 card tag-link"
+       style="width:100%"
+       th:href="@{/topics/tags/__${tag}__}"
+       th:text="${tag}">
+        Topic link
+    </a>
+</div>
+
+</body>
+</html>

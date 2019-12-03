@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of topics</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="/styles/base.css" rel="stylesheet">
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<div class="pic"></div>
+
+<main role="main">
+    <div class="container dashboard-container">
+        <div class="d-flex justify-content-between">
+            <div class="card left-right-margin" style="width: 30%">
+                <div class="card-body">
+                    <h2 class="card-title">Topics</h2>
+                    <p class="card-text">Our work!</p>
+                    <a href="/topics" class="btn btn-secondary">View topics &raquo;</a>
+                </div>
+            </div>
+            <div class="card left-right-margin" style="width: 30%">
+                <div class="card-body">
+                    <h2 class="card-title">Tags</h2>
+                    <p class="card-text">Find interesting tags!</p>
+                    <a href="/tags" class="btn btn-secondary">View tags &raquo;</a>
+                </div>
+            </div>
+            <div class="card left-right-margin" style="width: 30%">
+                <div class="card-body">
+                    <h2 class="card-title">Users</h2>
+                    <p class="card-text">Our community!</p>
+                    <a href="/users" class="btn btn-secondary">View users &raquo;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

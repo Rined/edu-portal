@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${topic.info.title}">Topic</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="/styles/base.css" rel="stylesheet">
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div th:replace="~{fragments :: titleTopic(${topic})}"></div>
+
+    <div class="custom-content">
+
+        <div class="main-content" th:text="${topic.content.text}">
+            text
+        </div>
+
+        <div>
+            <div class="h4">Comments</div>
+            <hr/>
+            <div class="card comments" th:each="comment: ${topic.comments}">
+                <a href="#" class="card-header tag-link"
+                   style="width:100%"
+                   th:href="@{/user(id=${comment.author.id})}"
+                   th:text="*{comment.author.name}">
+                    Comment Author
+                </a>
+                <div class="card-body">
+                    <p class="card-text" th:text="*{comment.text}">
+                        Comment text.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

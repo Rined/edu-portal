@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new tag</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/styles/base.css" rel="stylesheet">
+    <script th:replace="~{fragments :: formValidation}"></script>
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div th:replace="~{fragments :: title('Edit user ' + ${user.name}, 'Fill the following fields to update user')}"></div>
+    <div class="custom-content mb-3">
+        <form class="validation-form" method="post" th:action="@{/users/__${user.id}__/change}" novalidate>
+            <input name="id" type="hidden" th:value="${user.id}"/>
+
+            <div class="form-group">
+                <label for="name" class="lead">User name:</label>
+                <input type="text" class="form-control" autocomplete="off" id="name" name="name" th:value="${user.name}"
+                       required>
+                <div class="invalid-feedback">
+                    User name is mandatory
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="lead">Email:</label>
+                <input type="text" class="form-control" autocomplete="off" id="email" name="email"
+                       th:value="${user.email}" required>
+                <div class="invalid-feedback">
+                    User name is mandatory
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="about" class="lead">About:</label>
+                <input type="text" class="form-control" autocomplete="off" id="about" name="about"
+                       th:value="${user.about}">
+            </div>
+
+            <div class="form-group">
+                <label for="firstName" class="lead">First name:</label>
+                <input type="text" class="form-control" autocomplete="off" id="firstName" name="firstName"
+                       th:value="${user.firstName}">
+            </div>
+
+            <div class="form-group">
+                <label for="secondName" class="lead">Second name:</label>
+                <input type="text" class="form-control" autocomplete="off" id="secondName" name="secondName"
+                       th:value="${user.secondName}">
+            </div>
+
+            <button type="submit" class="btn btn-outline-secondary">Edit</button>
+        </form>
+    </div>
+</main>
+
+
+<div th:if="${#cookie.isCookieExists('update')}" th:inline="text" class="alert alert-success" role="alert">
+    User [[${#cookie.pop("update")}]] was updated successfully!
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

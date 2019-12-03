@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tagWithTopics.tag.tag}">Tag topics</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/styles/base.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div th:replace="~{fragments :: titleEditAndDeleteTag(${tagWithTopics.tag}, 'Total number of topics: ' + ${tagWithTopics.topicsWithTagsByTag.size()})}"></div>
+    <div class="custom-content">
+        <footer th:replace="~{fragments :: topicInfoWithTagsList(${tagWithTopics.topicsWithTagsByTag})}"></footer>
+    </div>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

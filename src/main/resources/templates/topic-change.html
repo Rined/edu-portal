@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new tag</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/styles/base.css" rel="stylesheet">
+    <script th:replace="~{fragments :: formValidation}"></script>
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div th:replace="~{fragments :: title('Edit topic ' + ${topic.title}, 'Fill the following fields to update topic')}"></div>
+    <div class="custom-content">
+        <form class="validation-form" method="post" th:action="@{/topics/__${topic.title}__/change}" novalidate>
+            <input name="id" type="hidden" th:value="${topic.id}"/>
+
+            <div class="form-group">
+                <label for="title" class="lead">Title:</label>
+                <input type="text" class="form-control" autocomplete="off" id="title" name="title"
+                       th:value="${topic.title}"
+                       required>
+                <div class="invalid-feedback">Topic title is mandatory</div>
+            </div>
+
+            <div class="form-group">
+                <label for="keywords" class="lead">Keywords (comma separated):</label>
+                <input type="text" class="form-control" autocomplete="off" id="keywords" name="keywords"
+                       th:value="${topic.keywords}"
+                       required>
+                <div class="invalid-feedback">Keywords name is mandatory</div>
+            </div>
+
+            <div class="form-group">
+                <label for="tags" class="lead">Tags (comma separated):</label>
+                <input type="text" class="form-control" autocomplete="off" id="tags" name="tags"
+                       th:value="${topic.tags}"
+                       required>
+                <div class="invalid-feedback">Tags is mandatory</div>
+            </div>
+
+            <div class="form-group">
+                <label for="content" class="lead">Content:</label>
+                <textarea class="form-control" id="content" autocomplete="off" name="content"
+                          th:text="${topic.content}" required>TEXT</textarea>
+                <div class="invalid-feedback">Topic content is mandatory</div>
+            </div>
+            <button type="submit" class="btn btn-outline-secondary">Edit</button>
+        </form>
+    </div>
+</main>
+
+
+<div th:if="${#cookie.isCookieExists('update')}" th:inline="text" class="alert alert-success" role="alert">
+    Topic [[${#cookie.pop("update")}]] was updated successfully!
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

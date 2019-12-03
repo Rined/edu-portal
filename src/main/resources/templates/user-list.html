@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of users</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/styles/base.css" rel="stylesheet">
+</head>
+<body>
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<main role="main">
+    <div th:replace="~{fragments :: titleLinkButton('Users', 'Total number of users: ' + ${userPage.getTotalElements()}, '/users/create', 'Create new user')}"></div>
+    <div class="custom-content">
+        <div class="card mb-2" th:each="user: ${userPage.getContent()}">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a th:href="@{/user(id=${user.getId()})}" th:text="${user.getName()}">AuthorName</a>
+                </h5>
+                <p class="card-text" th:if="${user.getInfo() != null}" th:text="${user.getInfo().getAbout()}"
+                   style="font-family: cursive;">
+                    Info
+                </p>
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="p-2 card-text" th:inline="text">Last seen: [[${user.getLastSeen()}]]</div>
+                    <div class="p-2 card-text" th:inline="text">Reputation: [[${user.getReputation()}]]</div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div th:replace="~{fragments :: pagination(${userPage}, '/users', 5)}"></div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>
