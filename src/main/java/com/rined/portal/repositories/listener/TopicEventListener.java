@@ -14,7 +14,6 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-@SuppressWarnings("NullableProblems")
 public class TopicEventListener extends AbstractMongoEventListener<Topic> {
 
     private final TagRepository tagRepository;

@@ -28,6 +28,7 @@ public class MongoDBChangeLog0 {
 
     @ChangeSet(order = "001", id = "initUsers", author = "rined", runAlways = true)
     public void initUsers(MongoTemplate template) {
+        System.err.println("INIT USER!");
         rined = template.save(new User(
                 "Rined",
                 LocalDate.of(2012, 1, 1),

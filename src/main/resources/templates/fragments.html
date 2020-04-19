@@ -160,7 +160,7 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
 </div>
 
 
-<nav th:fragment="pagination(page, url, range)" th:if="${page.getTotalPages() != 1}"
+<nav th:fragment="pagination(page, url, range)" th:if="${page.getTotalPages() > 1}"
      th:with="twoSideRange=${range/2}, maxPage=${page.getTotalPages() - 1}, currentPage=${page.getNumber()}">
 
     <ul class="pagination" th:with="
