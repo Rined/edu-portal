@@ -5,8 +5,9 @@ import com.rined.portal.dto.UserDto;
 import com.rined.portal.model.User;
 import com.rined.portal.repositories.projections.UserProfileInfo;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     UserDto getUserDtoById(String id);
 

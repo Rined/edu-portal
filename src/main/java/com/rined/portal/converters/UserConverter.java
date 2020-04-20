@@ -21,7 +21,9 @@ public interface UserConverter {
             @Mapping(target = "info.email", source = "dto.email"),
             @Mapping(target = "info.firstName", source = "dto.firstName"),
             @Mapping(target = "info.secondName", source = "dto.secondName"),
-            @Mapping(target = "reputation", source = "oldData.reputation")
+            @Mapping(target = "reputation", source = "oldData.reputation"),
+            @Mapping(target = "roles", ignore = true),
+            @Mapping(target = "authorities", ignore = true)
     })
     User createFrom(UserDto dto, User oldData);
 

@@ -59,9 +59,14 @@ public class TagController {
                             @PathVariable("tag") String tag) {
         tagService.update(newTag);
         String newTagName = newTag.getTag();
-        CookieUtil.addTransformCookieValueToPath(response, CookieUtil.UPDATE_COOKIE, tag,
+        CookieUtil.addTransformCookieValueToPath(
+                response,
+                CookieUtil.UPDATE_COOKIE,
+                tag,
                 CookieUtil::encode,
-                COOKIE_PATH_TEMPLATE, newTagName);
+                COOKIE_PATH_TEMPLATE,
+                newTagName
+        );
         return String.format("redirect:/tags/%s/change", newTagName);
     }
 
