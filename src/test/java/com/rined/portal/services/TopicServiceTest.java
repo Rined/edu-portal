@@ -79,7 +79,6 @@ class TopicServiceTest {
 
         val topicInfoBrief = new TopicInfoWithTags(
                 title,
-                topicDate,
                 0L,
                 Collections.singletonList(tag),
                 authorName,
@@ -183,7 +182,7 @@ class TopicServiceTest {
         given(topicRepository.findPageableAll(any(PageRequest.class), anyLong()))
                 .willReturn(new PageImpl<>(
                         Collections.nCopies(calcCollectionSize, new TopicInfoWithTags(
-                                title, LocalDateTime.now(), 0,
+                                title, 0,
                                 Collections.singletonList("TAG"), "AUTHOR_NAME", "AUTHOR_ID")
                         ), pageRequest, totalElementCount));
     }

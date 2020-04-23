@@ -42,7 +42,6 @@ class TopicRepositoryImplTest extends AbstractMongoDBRepositoryTest {
         assertThat(jaxb).isNotEmpty()
                 .allMatch(topicInfoWithTags -> nonNull(topicInfoWithTags.getAuthorId()))
                 .allMatch(topicInfoWithTags -> nonNull(topicInfoWithTags.getAuthorName()))
-                .allMatch(topicInfoWithTags -> nonNull(topicInfoWithTags.getTopicDate()))
                 .allMatch(topicInfoWithTags -> nonNull(topicInfoWithTags.getTopicTitle()))
                 .allMatch(topicInfoWithTags -> topicInfoWithTags.getTags().contains(tag));
     }

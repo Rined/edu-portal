@@ -125,15 +125,15 @@ public class TopicRepositoryImpl implements TopicRepositoryCustom {
     @Override
     public Page<TopicInfoWithTags> findPageableAll(Pageable pageable, long count) {
         Aggregation aggregation = Aggregation.newAggregation(
-                project().andInclude("date").andInclude("vote").and("_id").as("topicId")
+                project().andInclude("vote").and("_id").as("topicId")
                         .and("info.title").as("title")
                         .and("info.tags").as("tags")
                         .and("info.author").as("author"),
                 unwind("tags"),
-                project().andInclude("topicId").andInclude("title").andInclude("date").andInclude("vote")
+                project().andInclude("topicId").andInclude("title").andInclude("vote")
                         .and(valueOfToArray("tags")).as("tag_map")
                         .and(valueOfToArray("author")).as("author_map"),
-                project().andInclude("topicId").andInclude("title").andInclude("date").andInclude("vote")
+                project().andInclude("topicId").andInclude("title").andInclude("vote")
                         .and("tag_map.v").arrayElementAt(1).as("tag_id")
                         .and("author_map.v").arrayElementAt(1).as("author_id"),
                 lookup("tags", "tag_id", "_id", "tag"),
@@ -142,7 +142,6 @@ public class TopicRepositoryImpl implements TopicRepositoryCustom {
                 unwind("tag"),
                 group("topicId")
                         .first("title").as("topicTitle")
-                        .first("date").as("topicDate")
                         .first("vote").as("vote")
                         .addToSet("tag.tag").as("tags")
                         .first("author.name").as("authorName")

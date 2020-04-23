@@ -12,6 +12,7 @@
         <a class="navbar-brand" href="/tags">Tags</a>
         <a class="navbar-brand" href="/users">Users</a>
         <a sec:authorize="isAnonymous()" class="navbar-brand" href="/login">Log in</a>
+        <a sec:authorize="isAuthenticated()" class="navbar-brand" href="/logout">Log out</a>
     </div>
 </nav>
 
@@ -89,7 +90,7 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
     <div class="container">
         <h1 class="display-4" th:text="${tag.tag} + ' topics'">Title</h1>
         <p class="lead" th:text="${description}">Description</p>
-        <div class="d-flex justify-content-start">
+        <div sec:authorize="isAuthenticated()" class="d-flex justify-content-start">
             <a th:href="@{/tags/{tag}/change(tag=${tag.tag})}" class="btn btn-outline-primary btn-lg m-2">
                 Edit tag
             </a>
@@ -113,20 +114,18 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
                th:text="${topic.info.author.name}">
                 Author
             </a>
-            <div class="p-2" th:text="${topic.date}">00.00.00</div>
+            <div class="p-2" th:text="${#temporals.format(topic.date, 'dd-MM-yyyy HH:mm:ss')}">00.00.00</div>
         </div>
-
         <div class="d-flex flex-wrap justify-content-end">
             <div style="margin-left: 5px" th:each="tag: ${topic.info.tags}">
                 <a th:replace="~{fragments :: tag(${tag.tag})}"/>
             </div>
         </div>
 
-        <div class="d-flex justify-content-start">
+        <div sec:authorize="isAuthenticated()" class="d-flex justify-content-start">
             <a th:href="@{/topics/__${topic.info.title}__/change}" class="btn btn-outline-primary btn-lg m-2">
                 Edit topic
             </a>
-
             <form method="post" action="/topics/delete" novalidate>
                 <input name="id" type="hidden" th:value="${topic.id}"/>
                 <button type="submit" class="btn btn-outline-primary btn-lg m-2">
@@ -148,7 +147,6 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
                     Topic title
                 </a>
             </div>
-            <div class="p-2 nowrap" th:text="*{#temporals.format(topicDate, 'dd-MM-yyyy HH:mm:ss')}">12.12.12</div>
         </div>
         <div class="d-flex flex-wrap justify-content-end">
             <div style="margin-left: 5px" th:each="tag: *{tags}">

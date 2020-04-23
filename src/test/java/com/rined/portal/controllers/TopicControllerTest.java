@@ -113,7 +113,7 @@ class TopicControllerTest {
     @DisplayName("возвраать информацию о топиках с тегами")
     void topicsShouldReturnTopicInfoWithTags() throws Exception {
         val page = new PageImpl<>(Collections.singletonList(
-                new TopicInfoWithTags(topicTitle, topic.getDate(), topic.getVote(),
+                new TopicInfoWithTags(topicTitle, topic.getVote(),
                         topicInfo.getTags().stream().map(Tag::getTag).collect(Collectors.toList()),
                         user.getName(), user.getId())));
 
@@ -138,7 +138,7 @@ class TopicControllerTest {
     void tagsTopicShouldReturnTopicsByTag() throws Exception {
         TopicExtendedDto bean = new TopicExtendedDto(
                 new Tag("main-tag"),
-                singletonList(new TopicInfoWithTags("aTitle", LocalDateTime.now(), 0,
+                singletonList(new TopicInfoWithTags("aTitle", 0,
                         singletonList("aTag"), "authorName", "authorId")));
 
         given(topicService.getTopicsByTag(anyString()))
@@ -158,8 +158,7 @@ class TopicControllerTest {
                 .andExpect(content().string(containsString(topic.getAuthorName())))
                 .andExpect(content().string(containsString(topic.getTopicTitle())))
                 .andExpect(content().string(containsString(String.valueOf(topic.getVote()))))
-                .andExpect(content().string(containsString(topic.getTags().get(0))))
-                .andExpect(content().string(containsString(topic.getTopicDate().toString())));
+                .andExpect(content().string(containsString(topic.getTags().get(0))));
     }
 
     @Test

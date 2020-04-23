@@ -14,8 +14,6 @@ public class TopicInfoWithTags {
 
     private final String topicTitle;
 
-    private final LocalDateTime topicDate;
-
     private final long vote;
 
     private final List<String> tags;

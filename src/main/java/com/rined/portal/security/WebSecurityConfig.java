@@ -2,6 +2,7 @@ package com.rined.portal.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,7 +20,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .formLogin().loginPage("/login");
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/**").authenticated()
+                .antMatchers("/*/create").authenticated()
+                .antMatchers("/*/*/change").authenticated()
+                .and()
+                .formLogin().loginPage("/login")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .logoutUrl("/logout");
     }
 
     @Override
