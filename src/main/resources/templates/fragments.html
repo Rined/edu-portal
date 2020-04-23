@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--suppress ALL -->
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
 <body>
 
 <nav th:fragment="navigation" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -10,6 +11,7 @@
         <a class="navbar-brand" href="/topics">Topics</a>
         <a class="navbar-brand" href="/tags">Tags</a>
         <a class="navbar-brand" href="/users">Users</a>
+        <a sec:authorize="isAnonymous()" class="navbar-brand" href="/login">Log in</a>
     </div>
 </nav>
 
@@ -71,7 +73,12 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
         <h1 class="display-4" th:text="${pageTitle}">Title</h1>
         <p class="lead" th:text="${description}">Description</p>
         <div class="d-flex justify-content-start">
-            <a th:href="${url}" class="btn btn-outline-primary btn-lg mb-2" th:text="${buttonText}">Create new</a>
+            <a sec:authorize="isAuthenticated()"
+               th:href="${url}"
+               class="btn btn-outline-primary btn-lg mb-2"
+               th:text="${buttonText}">
+                Create new
+            </a>
         </div>
     </div>
 </div>
