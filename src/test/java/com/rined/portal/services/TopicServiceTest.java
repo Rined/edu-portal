@@ -22,7 +22,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -75,7 +74,6 @@ class TopicServiceTest {
         val title = "some-title";
         val authorName = "author-name";
         val authorId = "some-author-id";
-        val topicDate = LocalDateTime.now();
 
         val topicInfoBrief = new TopicInfoWithTags(
                 title,
@@ -164,6 +162,7 @@ class TopicServiceTest {
     }
 
     @Test
+    @SuppressWarnings("ConstantCondsitions")
     @DisplayName("возвращать корректно сформированное представление страницы")
     void getAllPageableTopicsShouldReturnCorrectPage() {
         val title = "TITLE";
@@ -196,14 +195,13 @@ class TopicServiceTest {
                 title,
                 "kw1",
                 "tag",
-                "usr",
                 "content"
         );
 
         given(topicRepository.existsByInfoTitle(any()))
                 .willReturn(true);
 
-        assertThatThrownBy(() -> service.createTopic(topicBriefDto))
+        assertThatThrownBy(() -> service.createTopic(topicBriefDto, new User()))
                 .isInstanceOf(AlreadyExistException.class)
                 .hasMessage(String.format(exceptionMessageTemplate, title));
     }
@@ -211,13 +209,13 @@ class TopicServiceTest {
     @Test
     @DisplayName("должен вызывать метод save репозитория")
     void createTopic() {
-        given(converter.createFrom(any()))
+        given(converter.createFrom(any(), new User()))
                 .willReturn(new Topic());
 
         given(topicRepository.save(any()))
                 .willReturn(new Topic());
 
-        service.createTopic(new TopicBriefDto());
+        service.createTopic(new TopicBriefDto(), new User());
 
         verify(topicRepository, times(1))
                 .save(any());

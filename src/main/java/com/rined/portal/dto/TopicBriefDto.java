@@ -25,10 +25,6 @@ public class TopicBriefDto {
     private String tags;
 
     @NotNull
-    @NotBlank(message = "Username is mandatory")
-    private String userName;
-
-    @NotNull
     @NotBlank(message = "Topic content is mandatory")
     private String content;
 

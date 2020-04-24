@@ -1,5 +1,6 @@
 package com.rined.portal.services;
 
+import com.rined.portal.dto.UserBrief;
 import com.rined.portal.dto.UserBriefDto;
 import com.rined.portal.dto.UserDto;
 import com.rined.portal.model.User;
@@ -20,4 +21,6 @@ public interface UserService extends UserDetailsService {
     User updateAndGetOld(UserDto userDto);
 
     void deleteById(String userId);
+
+    void createUser(UserBrief user);
 }

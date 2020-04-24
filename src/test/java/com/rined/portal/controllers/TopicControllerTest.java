@@ -174,13 +174,12 @@ class TopicControllerTest {
     @Test
     @DisplayName("позволять создать топик и возвращать view")
     void topicCreateShouldCreateTopicAndReturnView() throws Exception {
-        doNothing().when(topicService).createTopic(any());
+        doNothing().when(topicService).createTopic(any(), new User("TEST"));
 
         mvc.perform(post("/topics/create")
                 .param("title", topicTitle)
                 .param("keywords", String.join(",", topicInfo.getKeywords()))
                 .param("tags", tag.getTag())
-                .param("userName", user.getName())
                 .param("content", content.getText()))
                 .andDo(print())
                 .andExpect(status().isCreated())

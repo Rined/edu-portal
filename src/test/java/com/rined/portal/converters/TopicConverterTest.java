@@ -105,7 +105,7 @@ class TopicConverterTest {
     @DisplayName("корректно преобразовывать TagBriefDto к Tag")
     void createFromShouldConvertTopicBriefDtoToTopic() {
         val topicBriefDto = new TopicBriefDto("title", "kw1, kw2, kw3",
-                "tag1,tag2", "USER", "CONTENT!");
+                "tag1,tag2", "CONTENT!");
 
         given(userRepository.findUserByName(any()))
                 .willReturn(Optional.of(new User("USER")));
@@ -113,7 +113,7 @@ class TopicConverterTest {
         given(tagRepository.existsByTag(any()))
                 .willReturn(false);
 
-        Topic topic = converter.createFrom(topicBriefDto);
+        Topic topic = converter.createFrom(topicBriefDto, new User());
         assertAll(
                 () -> assertThat(topic).isNotNull(),
                 () -> assertThat(topic.getContent()).isNotNull()

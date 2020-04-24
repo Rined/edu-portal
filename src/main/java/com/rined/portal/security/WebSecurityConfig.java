@@ -21,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/user/registration").anonymous()
                 .antMatchers(HttpMethod.POST, "/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/**").authenticated()
                 .antMatchers("/*/create").authenticated()

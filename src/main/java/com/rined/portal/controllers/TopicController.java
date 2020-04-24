@@ -4,6 +4,7 @@ import com.rined.portal.dto.TopicBriefDto;
 import com.rined.portal.dto.TopicDto;
 import com.rined.portal.dto.TopicExtendedDto;
 import com.rined.portal.model.Topic;
+import com.rined.portal.model.User;
 import com.rined.portal.repositories.projections.TopicInfoWithTags;
 import com.rined.portal.services.TopicService;
 import com.rined.portal.utils.CookieUtil;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +50,9 @@ public class TopicController {
 
     @PostMapping("/topics/create")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public String topicCreate(@Valid TopicBriefDto topicBriefDto) {
-        topicService.createTopic(topicBriefDto);
+    public String topicCreate(@AuthenticationPrincipal User user,
+                              @Valid TopicBriefDto topicBriefDto) {
+        topicService.createTopic(topicBriefDto, user);
         return "topic-create";
     }
 
@@ -69,8 +72,8 @@ public class TopicController {
 
     @PostMapping("/topics/{topic}/change")
     public String updateTopic(@Valid TopicDto changedTopic,
-                            HttpServletResponse response,
-                            @PathVariable("topic") String title) {
+                              HttpServletResponse response,
+                              @PathVariable("topic") String title) {
         topicService.update(changedTopic);
         String newTitle = changedTopic.getTitle();
         CookieUtil.addTransformCookieValueToPath(response, CookieUtil.UPDATE_COOKIE, title,
