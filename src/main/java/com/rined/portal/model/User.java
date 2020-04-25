@@ -2,7 +2,6 @@ package com.rined.portal.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,12 +50,20 @@ public class User implements UserDetails {
         this.lastSeen = LocalDateTime.now();
     }
 
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
+        this.registrationDate = LocalDate.now();
+        this.lastSeen = LocalDateTime.now();
+    }
+
     public User(String name, LocalDate registrationDate, LocalDateTime lastSeen, int reputation) {
         this.name = name;
         this.registrationDate = registrationDate;
         this.lastSeen = lastSeen;
         this.reputation = reputation;
     }
+
     public User(String name, LocalDate registrationDate, LocalDateTime lastSeen, int reputation, String password) {
         this.name = name;
         this.registrationDate = registrationDate;

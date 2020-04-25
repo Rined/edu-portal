@@ -1,5 +1,6 @@
 package com.rined.portal.controllers;
 
+import com.rined.portal.dto.UserBriefDto;
 import com.rined.portal.model.User;
 import com.rined.portal.model.UserInfo;
 import com.rined.portal.properties.ErrorViewTemplateProperties;
@@ -120,7 +121,7 @@ class UserControllerTest {
         val email = "EMAIL@MAIL.MAIL";
 
         doNothing().when(userService)
-                .createUser(any());
+                .createUser(new UserBriefDto());
 
         mvc.perform(post("/users/create").param("name", name).param("email", email))
                 .andDo(print())

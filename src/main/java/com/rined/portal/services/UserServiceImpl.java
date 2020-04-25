@@ -4,6 +4,7 @@ import com.rined.portal.converters.UserConverter;
 import com.rined.portal.dto.UserBrief;
 import com.rined.portal.dto.UserBriefDto;
 import com.rined.portal.dto.UserDto;
+import com.rined.portal.exceptions.AlreadyExistException;
 import com.rined.portal.exceptions.NotFoundException;
 import com.rined.portal.model.User;
 import com.rined.portal.model.UserInfo;
@@ -81,7 +82,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(UserBrief user) {
-
+        if (userRepository.existsByName(user.getUsername())) {
+            throw new AlreadyExistException("User with username %s already exists!", user.getUsername());
+        }
+        userRepository.save(new User(user.getUsername(), user.getPassword()));
     }
 
     @Override

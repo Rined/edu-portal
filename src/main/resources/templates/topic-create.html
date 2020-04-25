@@ -6,12 +6,14 @@
     <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="/styles/base.css" rel="stylesheet">
     <script th:replace="~{fragments :: formValidation}"></script>
+    <link rel="stylesheet" href="/webjars/simplemde-markdown-editor/1.11.2/dist/simplemde.min.css">
+    <script src="/webjars/simplemde-markdown-editor/1.11.2/dist/simplemde.min.js"></script>
 </head>
 <body>
 
 <nav th:replace="~{fragments :: navigation}"></nav>
 
-<main role="main">
+<main role="main" class="mb-3">
     <div th:replace="~{fragments :: title('Create topic', 'Fill the following fields')}"></div>
     <div class="custom-content">
         <form class="validation-form" method="post" action="/topics/create" novalidate>
@@ -50,5 +52,9 @@
 </div>
 
 <footer th:replace="~{fragments :: footer}"></footer>
+
+<script>
+    new SimpleMDE({ element: document.getElementById("content") });
+</script>
 </body>
 </html>
