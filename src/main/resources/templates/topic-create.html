@@ -8,6 +8,8 @@
     <script th:replace="~{fragments :: formValidation}"></script>
     <link rel="stylesheet" href="/webjars/simplemde-markdown-editor/1.11.2/dist/simplemde.min.css">
     <script src="/webjars/simplemde-markdown-editor/1.11.2/dist/simplemde.min.js"></script>
+
+
 </head>
 <body>
 
@@ -26,7 +28,8 @@
 
             <div class="form-group">
                 <label for="tags" class="lead">Tags (comma separated):</label>
-                <input type="text" class="form-control"  id="tags" autocomplete="off" name="tags" placeholder="Input tags" required/>
+                <input type="text" class="form-control"
+                           id="tags" autocomplete="off" name="tags" placeholder="Input tags" required/>
                 <div class="invalid-feedback">Tags is mandatory</div>
             </div>
 

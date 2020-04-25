@@ -7,6 +7,7 @@
     <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
     <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href="/styles/base.css" rel="stylesheet">
+    <script src="/webjars/markdown-it/4.2.0/dist/markdown-it.min.js"></script>
 </head>
 <body>
 
@@ -14,13 +15,10 @@
 
 <main role="main">
     <div th:replace="~{fragments :: titleTopic(${topic})}"></div>
-
     <div class="custom-content">
-
-        <div class="main-content" th:text="${topic.content.text}">
+        <div class="main-content" id="content" th:text="${topic.content.text}">
             text
         </div>
-
         <div>
             <div class="h4">Comments</div>
             <hr/>
@@ -42,6 +40,11 @@
 </main>
 
 <footer th:replace="~{fragments :: footer}"></footer>
-
+<script>
+    const contentElement = document.getElementById('content');
+    const md = window.markdownit();
+    const result = md.render(contentElement.innerHTML);
+    contentElement.innerHTML = result;
+</script>
 </body>
 </html>
