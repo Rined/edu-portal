@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="/styles/login.css" rel="stylesheet">
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navigation}"></nav>
+
+<nav th:replace="~{fragments :: loginForm('/user/registration', 'Sign up')}"></nav>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

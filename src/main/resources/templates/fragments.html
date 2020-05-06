@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <!--suppress ALL -->
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+
 <body>
 
 <nav th:fragment="navigation" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
         <a class="navbar-brand mr-auto" href="/">Home</a>
+        <a class="navbar-brand" href="/search">Search</a>
         <a class="navbar-brand" href="/topics">Topics</a>
         <a class="navbar-brand" href="/tags">Tags</a>
         <a class="navbar-brand" href="/users">Users</a>
+        <a sec:authorize="isAnonymous()" class="navbar-brand" href="/login">Sign in</a>
+        <a sec:authorize="isAnonymous()" class="navbar-brand" href="/registration">Sign up</a>
+        <a sec:authorize="isAuthenticated()" class="navbar-brand" href="/logout">Sign out</a>
     </div>
 </nav>
 
@@ -70,18 +75,22 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
         <h1 class="display-4" th:text="${pageTitle}">Title</h1>
         <p class="lead" th:text="${description}">Description</p>
         <div class="d-flex justify-content-start">
-            <a th:href="${url}" class="btn btn-outline-primary btn-lg mb-2" th:text="${buttonText}">Create new</a>
+            <a sec:authorize="isAuthenticated()"
+               th:href="${url}"
+               class="btn btn-outline-primary btn-lg mb-2"
+               th:text="${buttonText}">
+                Create new
+            </a>
         </div>
     </div>
 </div>
 
 
-<div th:fragment="titleEditAndDeleteTag(tag, description)"
-     class="jumbotron mb-2">
+<div th:fragment="titleEditAndDeleteTag(tag, description)" class="jumbotron mb-2">
     <div class="container">
         <h1 class="display-4" th:text="${tag.tag} + ' topics'">Title</h1>
         <p class="lead" th:text="${description}">Description</p>
-        <div class="d-flex justify-content-start">
+        <div sec:authorize="isAuthenticated()" class="d-flex justify-content-start">
             <a th:href="@{/tags/{tag}/change(tag=${tag.tag})}" class="btn btn-outline-primary btn-lg m-2">
                 Edit tag
             </a>
@@ -105,20 +114,18 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
                th:text="${topic.info.author.name}">
                 Author
             </a>
-            <div class="p-2" th:text="${topic.date}">00.00.00</div>
+            <div class="p-2" th:text="${#temporals.format(topic.date, 'dd-MM-yyyy HH:mm:ss')}">00.00.00</div>
         </div>
-
         <div class="d-flex flex-wrap justify-content-end">
             <div style="margin-left: 5px" th:each="tag: ${topic.info.tags}">
                 <a th:replace="~{fragments :: tag(${tag.tag})}"/>
             </div>
         </div>
 
-        <div class="d-flex justify-content-start">
+        <div sec:authorize="isAuthenticated()" class="d-flex justify-content-start">
             <a th:href="@{/topics/__${topic.info.title}__/change}" class="btn btn-outline-primary btn-lg m-2">
                 Edit topic
             </a>
-
             <form method="post" action="/topics/delete" novalidate>
                 <input name="id" type="hidden" th:value="${topic.id}"/>
                 <button type="submit" class="btn btn-outline-primary btn-lg m-2">
@@ -140,7 +147,6 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
                     Topic title
                 </a>
             </div>
-            <div class="p-2 nowrap" th:text="*{topicDate}">12.12.12</div>
         </div>
         <div class="d-flex flex-wrap justify-content-end">
             <div style="margin-left: 5px" th:each="tag: *{tags}">
@@ -159,7 +165,7 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
 </div>
 
 
-<nav th:fragment="pagination(page, url, range)" th:if="${page.getTotalPages() != 1}"
+<nav th:fragment="pagination(page, url, range)" th:if="${page.getTotalPages() > 1}"
      th:with="twoSideRange=${range/2}, maxPage=${page.getTotalPages() - 1}, currentPage=${page.getNumber()}">
 
     <ul class="pagination" th:with="
@@ -203,6 +209,19 @@ PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJDYXBhXzEiIGVuYWJsZS1i
        th:text="${tag}">
         Topic link
     </a>
+</div>
+
+<div th:fragment="loginForm(formUrl, btnText)" class="wrapper fadeInDown">
+    <div id="formContent">
+        <form method="post" th:action="${formUrl}">
+            <input type="text" id="login" class="fadeIn second" name="username" placeholder="login">
+            <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+            <input type="submit" class="fadeIn fourth" value="Log In" th:value="${btnText}">
+        </form>
+        <div id="formFooter" th:if="${#strings.contains(formUrl, 'login')}">
+            <a class="underlineHover" href="#">Forgot Password?</a>
+        </div>
+    </div>
 </div>
 
 </body>

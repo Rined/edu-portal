@@ -6,43 +6,48 @@
     <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="/styles/base.css" rel="stylesheet">
     <script th:replace="~{fragments :: formValidation}"></script>
+    <link rel="stylesheet" href="/webjars/simplemde-markdown-editor/1.11.2/dist/simplemde.min.css">
+    <script src="/webjars/simplemde-markdown-editor/1.11.2/dist/simplemde.min.js"></script>
+
+    <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 
 <nav th:replace="~{fragments :: navigation}"></nav>
 
-<main role="main">
+<main role="main" class="mb-3">
     <div th:replace="~{fragments :: title('Create topic', 'Fill the following fields')}"></div>
     <div class="custom-content">
         <form class="validation-form" method="post" action="/topics/create" novalidate>
 
             <div class="form-group">
                 <label for="title" class="lead">Title:</label>
-                <input type="text" class="form-control" id="title" autocomplete="off" name="title" placeholder="Input title" required>
+                <input type="text" class="form-control" id="title" autocomplete="off" name="title"
+                       placeholder="Input title" required>
                 <div class="invalid-feedback">Title is mandatory</div>
             </div>
 
             <div class="form-group">
-                <label for="userName" class="lead">Username:</label>
-                <input type="text" class="form-control" id="userName" autocomplete="off" name="userName" placeholder="Input username" required>
-                <div class="invalid-feedback">Username is mandatory</div>
-            </div>
-
-            <div class="form-group">
                 <label for="tags" class="lead">Tags (comma separated):</label>
-                <input type="text" class="form-control"  id="tags" autocomplete="off" name="tags" placeholder="Input tags" required/>
+                <input type="text" class="form-control"
+                       id="tags" autocomplete="off" name="tags" placeholder="Input tags"
+                       list="tagList" required/>
+                <datalist id="tagList"></datalist>
                 <div class="invalid-feedback">Tags is mandatory</div>
             </div>
+            <div id="tagContainer" class="d-flex flex-wrap justify-content-start"></div>
 
             <div class="form-group">
                 <label for="keywords" class="lead">Keywords (comma separated):</label>
-                <input type="text" class="form-control" id="keywords" autocomplete="off" name="keywords" placeholder="Input keywords" required/>
+                <input type="text" class="form-control" id="keywords" autocomplete="off" name="keywords"
+                       placeholder="Input keywords" required/>
                 <div class="invalid-feedback">Keywords is mandatory</div>
             </div>
 
             <div class="form-group">
                 <label for="content" class="lead">Content:</label>
-                <textarea class="form-control" id="content" autocomplete="off" name="content" placeholder="Input topic content" required></textarea>
+                <textarea class="form-control" id="content" autocomplete="off" name="content"
+                          placeholder="Input topic content" required></textarea>
                 <div class="invalid-feedback">Topic content is mandatory</div>
             </div>
 
@@ -56,5 +61,52 @@
 </div>
 
 <footer th:replace="~{fragments :: footer}"></footer>
+
+<script>
+    new SimpleMDE({element: document.getElementById("content")});
+
+    // const tagInput = $('#tags');
+    const tagInput = document.querySelector('#tags');
+    const tagContainer = $('#tagContainer');
+    const listOfTags = $('#tagList');
+    const tags = $('#tags');
+    tagInput.addEventListener('input', fillTagList);
+
+    tags.keydown(function (e) {
+        if (e.keyCode === 13) {
+            addTagTo();
+            e.preventDefault();
+            return false;
+        }
+    });
+
+
+    function fillTagList(e) {
+        const text = e.target.value;
+        if (text.length > 0) {
+            listOfTags.empty();
+            uploadTags(text);
+        } else if (text.length === 0) {
+            listOfTags.empty();
+        }
+    }
+
+    function uploadTags(text) {
+        fetch(`/api/tag?filter=${text}`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((arr) => {
+                arr.forEach(el => $(`<option value="${el.tag}">`).appendTo(listOfTags));
+            });
+    }
+
+    function addTagTo() {
+        $(`<div class="p-2 card tag-link tag">${tags.val()}</div>`)
+            .appendTo(tagContainer);
+        tags.val('');
+        listOfTags.empty();
+    }
+</script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title th:text="${userProfile.user.name}">Title</title>
@@ -37,7 +37,7 @@
                             <div>
                                 Last seen:
                             </div>
-                            <div th:text="*{lastSeen}">
+                            <div th:text="*{#temporals.format(lastSeen, 'dd-MM-yyyy HH:mm:ss')}">
                                 now
                             </div>
                         </div>
@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-end mt-2">
+        <div sec:authorize="isAuthenticated()" class="d-flex justify-content-end mt-2">
             <a th:href="@{/users/{id}/change(id=${param.id})}" class="btn btn-outline-primary btn-lg m-2">
                 Edit user info
             </a>
@@ -94,7 +94,10 @@
                                 rating
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end" th:text="*{topicDate}">12.12.12</div>
+                        <div class="d-flex justify-content-end"
+                             th:text="*{#temporals.format(topicDate, 'dd-MM-yyyy HH:mm:ss')}">
+                            12.12.12
+                        </div>
                     </div>
                 </div>
             </div>
@@ -114,7 +117,10 @@
                                 rating
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end" th:text="*{commentDate}">12.12.12</div>
+                        <div class="d-flex justify-content-end"
+                             th:text="*{#temporals.format(commentDate, 'dd-MM-yyyy HH:mm:ss')}">
+                            12.12.12
+                        </div>
                     </div>
                 </div>
             </div>

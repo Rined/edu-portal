@@ -68,7 +68,12 @@ footer {
     margin-left: 1vh;
 }
 
-.dashboard-container{
+.dashboard-container {
     margin-top: 3vh;
     margin-bottom: 3vh;
+}
+
+.tag {
+    color: #007bff;
+    margin-right: 5px
 }

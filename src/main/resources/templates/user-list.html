@@ -22,7 +22,7 @@
                     Info
                 </p>
                 <div class="d-flex justify-content-between mb-2">
-                    <div class="p-2 card-text" th:inline="text">Last seen: [[${user.getLastSeen()}]]</div>
+                    <div class="p-2 card-text" th:inline="text">Last seen: [[${#temporals.format(user.getLastSeen(), 'dd-MM-yyyy HH:mm:ss')}]]</div>
                     <div class="p-2 card-text" th:inline="text">Reputation: [[${user.getReputation()}]]</div>
                 </div>
             </div>
