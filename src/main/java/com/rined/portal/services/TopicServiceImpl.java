@@ -8,6 +8,7 @@ import com.rined.portal.exceptions.AlreadyExistException;
 import com.rined.portal.exceptions.NotFoundException;
 import com.rined.portal.model.Tag;
 import com.rined.portal.model.Topic;
+import com.rined.portal.model.User;
 import com.rined.portal.repositories.TagRepository;
 import com.rined.portal.repositories.TopicRepository;
 import com.rined.portal.repositories.projections.TopicBrief;
@@ -29,6 +30,7 @@ public class TopicServiceImpl implements TopicService {
     private final TagRepository tagRepository;
     private final TopicConverter converter;
 
+    @Override
     public TopicExtendedDto getTopicsByTag(String tag) {
         if (!tagRepository.existsByTag(tag)) {
             throw new NotFoundException(String.format("Tag %s not found!", tag));
@@ -38,6 +40,7 @@ public class TopicServiceImpl implements TopicService {
         return new TopicExtendedDto(byTag, topicsWithTagsByTag);
     }
 
+    @Override
     public Optional<Topic> topicByTitle(String title) {
         if (!topicRepository.existsByInfoTitle(title)) {
             throw new NotFoundException(String.format("Title %s not found!", title));
@@ -45,6 +48,7 @@ public class TopicServiceImpl implements TopicService {
         return topicRepository.findTopicByInfoTitle(title);
     }
 
+    @Override
     public Page<TopicInfoWithTags> getAllPageableTopics(int page, int numberOfElementsOnPage) {
         long count = topicRepository.count();
         if ((count < page * numberOfElementsOnPage) || page < 0)
@@ -53,20 +57,23 @@ public class TopicServiceImpl implements TopicService {
         return topicRepository.findPageableAll(requestPageable, count);
     }
 
-    public void createTopic(TopicBriefDto topicBrief) {
+    @Override
+    public void createTopic(TopicBriefDto topicBrief, User author) {
         String title = topicBrief.getTitle();
         if (topicRepository.existsByInfoTitle(title)) {
             throw new AlreadyExistException(String.format("Topic with name %s already exists", title));
         }
-        Topic newTopic = converter.createFrom(topicBrief);
+        Topic newTopic = converter.createFrom(topicBrief, author);
         topicRepository.save(newTopic);
     }
 
+    @Override
     public TopicDto getTopicDtoByName(String topic) {
         TopicBrief topicBriefByTag = topicRepository.findTopicBriefByTopicName(topic);
         return converter.briefToDto(topicBriefByTag);
     }
 
+    @Override
     public void update(TopicDto changedTopic) {
         String id = changedTopic.getId();
         boolean existedId = topicRepository.existsById(id);
@@ -78,6 +85,7 @@ public class TopicServiceImpl implements TopicService {
         topicRepository.save(topic);
     }
 
+    @Override
     public void deleteById(String id) {
         topicRepository.deleteById(id);
     }

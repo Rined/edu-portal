@@ -33,13 +33,16 @@ public class MongoDBChangeLog0 {
                 LocalDate.of(2012, 1, 1),
                 LocalDateTime.now(),
                 new UserInfo("Cool man!", "lol@fun.true", "Anton", "Petrov"),
-                10
+                10,
+                "password",
+                Arrays.asList(Role.ADMIN, Role.USER)
         ));
         noname = template.save(new User(
                 "Noname",
                 LocalDate.now(),
                 LocalDateTime.now(),
-                11
+                11,
+                "password"
         ));
 
         for (int i = 0; i < random.nextInt(500); i++) {
@@ -47,7 +50,8 @@ public class MongoDBChangeLog0 {
                     UUID.randomUUID().toString(),
                     LocalDate.now(),
                     LocalDateTime.now(),
-                    (int) (Math.random() * 10)
+                    (int) (Math.random() * 10),
+                    "password"
             ));
         }
     }

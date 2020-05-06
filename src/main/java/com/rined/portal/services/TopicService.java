@@ -4,6 +4,7 @@ import com.rined.portal.dto.TopicBriefDto;
 import com.rined.portal.dto.TopicDto;
 import com.rined.portal.dto.TopicExtendedDto;
 import com.rined.portal.model.Topic;
+import com.rined.portal.model.User;
 import com.rined.portal.repositories.projections.TopicInfoWithTags;
 import org.springframework.data.domain.Page;
 
@@ -17,7 +18,7 @@ public interface TopicService {
 
     Page<TopicInfoWithTags> getAllPageableTopics(int page, int numberOfElementsOnPage);
 
-    void createTopic(TopicBriefDto topicBrief);
+    void createTopic(TopicBriefDto topicBrief, User author);
 
     TopicDto getTopicDtoByName(String topic);
 

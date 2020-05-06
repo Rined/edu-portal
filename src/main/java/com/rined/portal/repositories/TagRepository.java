@@ -16,4 +16,6 @@ public interface TagRepository extends MongoRepository<Tag, String>, TagReposito
 
     List<Tag> getAllByTagNotIn(List<String> tags);
 
+    List<Tag> getByTagStartsWith(String name);
+
 }

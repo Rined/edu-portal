@@ -69,4 +69,11 @@ public class TagService {
     public void deleteById(String id) {
         tagRepository.deleteById(id);
     }
+
+    public List<TagDto> getByTagStartWith(String filter) {
+        return tagRepository.getByTagStartsWith(filter)
+                .stream()
+                .map(converter::beanToDto)
+                .collect(Collectors.toList());
+    }
 }

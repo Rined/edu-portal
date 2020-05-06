@@ -4,7 +4,6 @@ import com.rined.portal.dto.TopicBriefDto;
 import com.rined.portal.dto.TopicDto;
 import com.rined.portal.model.*;
 import com.rined.portal.repositories.TagRepository;
-import com.rined.portal.repositories.UserRepository;
 import com.rined.portal.repositories.projections.TopicBrief;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,6 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class TopicConverterImpl implements TopicConverter {
     private final TagRepository tagRepository;
-    private final UserRepository userRepository;
 
     @Override
     public TopicDto briefToDto(TopicBrief brief) {
@@ -52,17 +50,13 @@ public class TopicConverterImpl implements TopicConverter {
     }
 
     @Override
-    public Topic createFrom(TopicBriefDto topicBrief) {
+    public Topic createFrom(TopicBriefDto topicBrief, User author) {
         String title = topicBrief.getTitle();
 
         List<Tag> tagList = getTagsFromString(topicBrief.getTags());
         List<String> keywordList = getKeyWordsFromString(topicBrief.getKeywords());
 
-        String userName = topicBrief.getUserName();
-        User user = userRepository.findUserByName(userName)
-                .orElseGet(() -> new User(userName));
-
-        TopicInfo topicInfo = new TopicInfo(title, keywordList, tagList, user);
+        TopicInfo topicInfo = new TopicInfo(title, keywordList, tagList, author);
         return new Topic(topicInfo, new Content(topicBrief.getContent()));
     }
 
